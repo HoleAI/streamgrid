@@ -10,34 +10,53 @@
     <div id="app"></div>
 
     <script>
-        const channels = [
+        const fastChannels = [
             {"id": 1, "name": "Canale D", "url": "https://mediahosting.space/embed/player?stream=5&no_register=true"},
             {"id": 2, "name": "Canale C", "url": "https://mediahosting.space/embed/player?stream=1&no_register=true"},
             {"id": 3, "name": "Canale UNO", "url": "https://mediahosting.space/embed/player?stream=170&no_register=true"},
+            {"id": 8, "name": "Canale C (Riserva)", "url": "https://mediahosting.space/embed/player?stream=134&no_register=true"},
+            {"id": 9, "name": "Canale D (Riserva)", "url": "https://mediahosting.space/embed/player?stream=136&no_register=true"}
+        ];
+
+        const normalChannels = [
             {"id": 4, "name": "Canale T", "url": "https://lovetier.bz/player/SkySportTennisIT"},
             {"id": 5, "name": "Canale 24", "url": "https://lovetier.bz/player/SkySport24IT"},
             {"id": 6, "name": "Canale E1", "url": "https://lovetier.bz/player/euro1it"},
-            {"id": 7, "name": "Canale E2", "url": "https://lovetier.bz/player/euro2it"},
-            {"id": 8, "name": "Canale C (Riserva)", "url": "https://mediahosting.space/embed/player?stream=134&no_register=true"},
-            {"id": 9, "name": "Canale D (Riserva)", "url": "https://mediahosting.space/embed/player?stream=136&no_register=true"}
+            {"id": 7, "name": "Canale E2", "url": "https://lovetier.bz/player/euro2it"}
         ];
 
         function renderHome() {
             document.getElementById('app').innerHTML = `
                 <div class="max-w-6xl mx-auto p-4">
                     <h1 class="text-3xl font-bold mb-6">StreamGrid</h1>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        ${channels.map(ch => `
-                            <div class="bg-gray-800 rounded-lg p-4 hover:bg-gray-700 cursor-pointer transition-colors" onclick="showPlayer(${ch.id})">
-                                <h2 class="font-semibold">${ch.name}</h2>
+                    <div class="space-y-6">
+                        <div>
+                            <h2 class="text-xl font-semibold mb-4">Fast</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                ${fastChannels.map(ch => `
+                                    <div class="bg-gray-800 rounded-lg p-4 hover:bg-gray-700 cursor-pointer transition-colors" onclick="showPlayer(${ch.id}, 'fast')">
+                                        <h2 class="font-semibold">${ch.name}</h2>
+                                    </div>
+                                `).join('')}
                             </div>
-                        `).join('')}
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-semibold mb-4">Normal</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                ${normalChannels.map(ch => `
+                                    <div class="bg-gray-800 rounded-lg p-4 hover:bg-gray-700 cursor-pointer transition-colors" onclick="showPlayer(${ch.id}, 'normal')">
+                                        <h2 class="font-semibold">${ch.name}</h2>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
-        function showPlayer(id) {
+        function showPlayer(id, category) {
+            const channels = category === 'fast' ? fastChannels : normalChannels;
             const channel = channels.find(c => c.id === id);
             document.getElementById('app').innerHTML = `
                 <div class="fixed inset-0 bg-black flex items-center justify-center z-50">
