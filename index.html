@@ -44,7 +44,10 @@
                             </div>
                         </div>
                         <div>
-                            <h2 class="text-xl font-semibold mb-4">Normal</h2>
+                            <h2 class="text-xl font-semibold mb-4 flex items-center justify-between">
+                            <span>Normal</span>
+                            <a href="tutorial.html" class="text-blue-400 hover:text-blue-300 underline" target="_blank">📖 Tutorial</a>
+                        </h2>
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                                 ${normalChannels.map(ch => `
                                     <div class="bg-gray-800 rounded-lg p-4 hover:bg-gray-700 cursor-pointer transition-colors" onclick="showPlayer(${ch.id}, 'normal')">
