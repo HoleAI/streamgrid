@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamGrid | Player</title>
+    <link rel="stylesheet" href="index.css?v=6">
+</head>
+<body style="background: #000; overflow: hidden;">
+    <div id="player-page" class="player-overlay">
+        <div class="player-header">
+            <button onclick="window.location.href='index.html'" class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            </button>
+            <div id="modal-stream-selector" class="stream-selector"></div>
+            <div style="width: 40px;"></div>
+        </div>
+        
+        <div class="video-box">
+            <div class="iframe-container">
+                <iframe id="main-player" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STREAM_TOKEN = "aN7QrmHIoz60HOhI";
+        const fastChannels = [
+            {"id": 1, "name": "Canale D 📍", "streams": ["5", "92", "136"]},
+            {"id": 2, "name": "Canale C ⚽️", "streams": ["1", "134"]},
+            {"id": 3, "name": "Canale UNO ✨", "streams": ["130", "170"]}
+        ];
+        const normalChannels = [
+            {"id": 4, "name": "Canale D 📍", "url": "https://lovetier.bz/player/zonaDAZN"},
+            {"id": 5, "name": "Canale C ⚽️", "url": "https://lovetier.bz/player/SkySportCalcioIT"},
+            {"id": 6, "name": "Canale Uno ✨", "url": "https://lovetier.bz/player/SkySportUnoIT"},
+            {"id": 7, "name": "Canale T 🥎", "url": "https://lovetier.bz/player/SkySportTennisIT"},
+            {"id": 8, "name": "Canale 24 📰", "url": "https://lovetier.bz/player/SkySport24IT"},
+            {"id": 9, "name": "Canale E1 🥇", "url": "https://lovetier.bz/player/euro1it"},
+            {"id": 10, "name": "Canale E2 🥈", "url": "https://lovetier.bz/player/euro2it"},
+            {"id": 11, "name": "Canale B 🏀", "url": "https://lovetier.bz/player/SkySportNBAIT"}
+        ];
+
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
+        function updateStream(channel, index) {
+            const streamId = channel.streams[index];
+            let url = isMobile() 
+                ? `https://1nyaler.screenistream.xyz/stream/${streamId}/index.m3u8?token=${STREAM_TOKEN}&no_register=true`
+                : `https://mediahosting.space/embed/player?stream=${streamId}&token=${STREAM_TOKEN}&no_register=true`;
+            
+            document.getElementById('main-player').src = url;
+
+            const selector = document.getElementById('modal-stream-selector');
+            selector.innerHTML = channel.streams.map((_, i) => `
+                <button onclick='updateStream(${JSON.stringify(channel)}, ${i})' 
+                        class="selector-btn ${i === index ? 'active' : ''}">
+                    Opzione ${i + 1}
+                </button>
+            `).join('');
+        }
+
+        // Init based on URL
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get('type');
+        const id = parseInt(params.get('id'));
+
+        if (type === 'fast') {
+            const ch = fastChannels.find(c => c.id === id);
+            if (ch) updateStream(ch, 0);
+        } else if (type === 'normal') {
+            const ch = normalChannels.find(c => c.id === id);
+            if (ch) {
+                const separator = ch.url.includes('?') ? '&' : '?';
+                document.getElementById('main-player').src = `${ch.url}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
+                document.getElementById('modal-stream-selector').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

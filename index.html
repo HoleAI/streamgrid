@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamGrid | Premium Streaming</title>
+    <link rel="stylesheet" href="index.css?v=6">
+    <meta name="description" content="Piattaforma di streaming premium per canali TV sportivi e d'intrattenimento.">
+</head>
+<body>
+    <div id="app">
+        <header class="navbar glass">
+            <div class="logo">StreamGrid</div>
+            <a href="tutorial.html" class="selector-btn glass" style="text-decoration: none; color: white;">📖 Tutorial</a>
+        </header>
+
+        <main class="max-w-7xl mx-auto">
+            <section id="fast-section">
+                <h2 class="section-title">Canali Fast</h2>
+                <div id="fast-grid" class="channel-grid"></div>
+            </section>
+
+            <section id="normal-section">
+                <h2 class="section-title">Canali Standard</h2>
+                <div id="normal-grid" class="channel-grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const fastChannels = [
+            {"id": 1, "name": "Canale D 📍", "streams": ["5", "92", "136"]},
+            {"id": 2, "name": "Canale C ⚽️", "streams": ["1", "134"]},
+            {"id": 3, "name": "Canale UNO ✨", "streams": ["130", "170"]}
+        ];
+
+        const normalChannels = [
+            {"id": 4, "name": "Canale D 📍", "url": "https://lovetier.bz/player/zonaDAZN"},
+            {"id": 5, "name": "Canale C ⚽️", "url": "https://lovetier.bz/player/SkySportCalcioIT"},
+            {"id": 6, "name": "Canale Uno ✨", "url": "https://lovetier.bz/player/SkySportUnoIT"},
+            {"id": 7, "name": "Canale T 🥎", "url": "https://lovetier.bz/player/SkySportTennisIT"},
+            {"id": 8, "name": "Canale 24 📰", "url": "https://lovetier.bz/player/SkySport24IT"},
+            {"id": 9, "name": "Canale E1 🥇", "url": "https://lovetier.bz/player/euro1it"},
+            {"id": 10, "name": "Canale E2 🥈", "url": "https://lovetier.bz/player/euro2it"},
+            {"id": 11, "name": "Canale B 🏀", "url": "https://lovetier.bz/player/SkySportNBAIT"}
+        ];
+
+        function renderChannels() {
+            const fastGrid = document.getElementById('fast-grid');
+            const normalGrid = document.getElementById('normal-grid');
+
+            fastGrid.innerHTML = fastChannels.map(ch => `
+                <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=fast&id=${ch.id}'">
+                    <div class="channel-name">${ch.name}</div>
+                </div>
+            `).join('');
+
+            normalGrid.innerHTML = normalChannels.map(ch => `
+                <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=normal&id=${ch.id}'">
+                    <div class="channel-name">${ch.name}</div>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        renderChannels();
+
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.navbar');
+            if (window.scrollY > 20) {
+                nav.style.padding = '0.75rem 2rem';
+                nav.style.background = 'rgba(10, 10, 12, 0.9)';
+            } else {
+                nav.style.padding = '1rem 2rem';
+                nav.style.background = 'var(--bg-glass)';
+            }
+        });
+    </script>
+</body>
+</html>

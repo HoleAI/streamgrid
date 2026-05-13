@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial | StreamGrid</title>
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .tutorial-container {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        .step-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-glass);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .step-number {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 700;
+            margin-right: 1rem;
+        }
+        .link-accent {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .link-accent:hover {
+            text-decoration: underline;
+        }
+        li { margin-bottom: 0.75rem; }
+    </style>
+</head>
+<body>
+    <header class="navbar glass">
+        <div class="logo">StreamGrid</div>
+        <button onclick="window.location.href='index.html'" class="selector-btn glass" style="color: white;">Torna alla Home</button>
+    </header>
+
+    <main class="tutorial-container">
+        <h1 class="section-title" style="margin: 0 0 2rem 0;">📖 Come bloccare le pubblicità</h1>
+        
+        <p style="color: var(--text-secondary); margin-bottom: 3rem;">
+            Per un'esperienza di visione senza interruzioni e pop-up fastidiosi, ti consigliamo vivamente di installare un ad-blocker seguendo queste brevi guide.
+        </p>
+
+        <section class="fade-in">
+            <h2 class="section-title">🖥 PC (Windows / Mac)</h2>
+            <div class="step-card">
+                <h3 style="margin-bottom: 1rem;"><span class="step-number">1</span>Installazione uBlock Origin</h3>
+                <ul style="list-style: none;">
+                    <li>1. Apri il browser (Chrome/Edge/Firefox)</li>
+                    <li>2. Visita lo store ufficiale: <a href="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm" class="link-accent" target="_blank">uBlock Origin</a></li>
+                    <li>3. Clicca su "Aggiungi" e conferma l'installazione.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fade-in" style="animation-delay: 0.1s;">
+            <h2 class="section-title">📱 iPhone / iPad (iOS)</h2>
+            <div class="step-card">
+                <h3 style="margin-bottom: 1rem;"><span class="step-number">2</span>Safari Content Blocker</h3>
+                <ul style="list-style: none;">
+                    <li>1. Scarica <span class="link-accent">uBlock Origin Lite</span> dall'App Store.</li>
+                    <li>2. Vai in <b>Impostazioni > Safari > Estensioni</b>.</li>
+                    <li>3. Attiva tutte le voci relative a uBlock.</li>
+                    <li>4. In Safari, tocca l'icona 'AA' per gestire l'estensione se necessario.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="fade-in" style="animation-delay: 0.2s;">
+            <h2 class="section-title">🤖 Android</h2>
+            <div class="step-card">
+                <h3 style="margin-bottom: 1rem;"><span class="step-number">3</span>Firefox + Add-ons</h3>
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Il metodo più efficace su Android è usare Firefox invece di Chrome.</p>
+                <ul style="list-style: none;">
+                    <li>1. Installa <b>Firefox</b> dal Play Store.</li>
+                    <li>2. Nel menu (⋮), vai su <b>Componenti aggiuntivi</b>.</li>
+                    <li>3. Cerca e installa <b>uBlock Origin</b>.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align: center; padding: 4rem 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+        &copy; 2026 StreamGrid. Per uso educativo e di test.
+    </footer>
+</body>
+</html>
