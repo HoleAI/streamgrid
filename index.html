@@ -8,9 +8,20 @@
     <meta name="description" content="Piattaforma di streaming premium per canali TV sportivi e d'intrattenimento.">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0a0a0c">
+    
+    <!-- iOS Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="StreamGrid">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/192/play.png">
+
     <script>
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => {
+                    console.log('SW Registered');
+                }).catch(err => console.log('SW Error', err));
+            });
         }
     </script>
 </head>

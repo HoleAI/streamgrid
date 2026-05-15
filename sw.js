@@ -1,5 +1,6 @@
 const CACHE_NAME = 'streamgrid-v1';
 const ASSETS = [
+  './',
   'index.html',
   'player.html',
   'index.css',
