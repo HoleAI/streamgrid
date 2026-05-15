@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Grid</title>
-    <link rel="stylesheet" href="index.css?v=7">
+    <link rel="stylesheet" href="index.css?v=8">
     <meta name="description" content="Piattaforma di streaming per canali TV sportivi e d'intrattenimento.">
 </head>
 <body>
@@ -28,6 +28,15 @@
     </div>
 
     <script>
+        // Rimozione forzata dei Service Worker precedenti per aggiornare la cache
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister();
+                }
+            });
+        }
+
         const fastChannels = [
             {"id": 1, "name": "Canale D 📍", "streams": ["5", "92", "136"]},
             {"id": 2, "name": "Canale C ⚽️", "streams": ["1", "134"]},
