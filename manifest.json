@@ -8,9 +8,9 @@
   "theme_color": "#6366f1",
   "icons": [
     {
-      "src": "logo.png",
+      "src": "stream-in-colorado.jpg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/jpeg",
       "purpose": "any maskable"
     }
   ]
