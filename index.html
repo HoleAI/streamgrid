@@ -6,20 +6,23 @@
     <title>Stream Grid</title>
     <link rel="stylesheet" href="index.css?v=8">
     <meta name="description" content="Piattaforma di streaming per canali TV sportivi e d'intrattenimento.">
-    <!-- PWA Setup -->
+    
+    <!-- PWA Settings -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0a0a0c">
-    <link rel="apple-touch-icon" href="stream-in-colorado.jpg">
+    <meta name="theme-color" content="#6366f1">
+    
+    <!-- iOS support -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Stream Grid">
+    <link rel="apple-touch-icon" href="logo.png">
 </head>
 <body>
     <div id="app">
         <header class="navbar glass">
-            <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
-                <img src="stream-in-colorado.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
-                <span class="logo">Stream Grid</span>
+            <div class="logo">
+                <img src="logo.png" alt="Stream Grid Logo">
+                Stream Grid
             </div>
             <a href="tutorial.html" class="selector-btn glass" style="text-decoration: none; color: white;">📖 Tutorial</a>
         </header>
@@ -38,12 +41,13 @@
     </div>
 
     <script>
+        // Service Worker Registration for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(registration => {
-                    console.log('SW registered: ', registration.scope);
-                }).catch(registrationError => {
-                    console.log('SW registration failed: ', registrationError);
+                navigator.serviceWorker.register('./sw.js').then(reg => {
+                    console.log('SW registered!', reg);
+                }).catch(err => {
+                    console.log('SW registration failed:', err);
                 });
             });
         }

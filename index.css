@@ -59,12 +59,22 @@ body {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     font-size: 1.75rem;
     font-weight: 700;
     background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
+}
+
+.logo img {
+    height: 38px;
+    width: 38px;
+    border-radius: 10px;
+    -webkit-text-fill-color: initial; /* Fix for background-clip: text on parent */
 }
 
 /* Channel Cards */
