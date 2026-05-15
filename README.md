@@ -1,9 +1,9 @@
-# StreamGrid - Premium Streaming Platform
+# Stream Grid - Streaming Platform
 
-StreamGrid è una piattaforma web moderna per lo streaming di canali TV sportivi e d'intrattenimento.
+Stream Grid è una piattaforma web moderna per lo streaming di canali TV sportivi e d'intrattenimento.
 
 ## Stato del progetto
-Il sito è stato completamente ridisegnato con un'estetica premium (Dark Mode, Glassmorphism, Responsive Grid).
+Il sito è stato completamente ridisegnato con un'estetica moderna (Dark Mode, Glassmorphism, Responsive Grid).
 La logica PWA è stata temporaneamente rimossa per essere ricostruita da zero con una struttura più robusta una volta finalizzata l'interfaccia.
 
 ## Struttura
@@ -12,7 +12,7 @@ La logica PWA è stata temporaneamente rimossa per essere ricostruita da zero co
 - `tutorial.html`: Guida per gli utenti al blocco delle pubblicità.
 
 ## Caratteristiche
-- **Premium UI**: Design curato con animazioni fluide e tipografia moderna (Outfit).
+- **Modern UI**: Design curato con animazioni fluide e tipografia moderna (Outfit).
 - **Multi-Stream**: Supporto per canali con opzioni multiple di streaming.
 - **Ad-Block Ready**: Parametri integrati per ridurre le pubblicità sui player esterni.
 

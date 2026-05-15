@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamGrid | Player</title>
+    <title>Stream Grid | Player</title>
     <link rel="stylesheet" href="index.css?v=6">
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="stream-in-colorado.jpg">
 </head>
 <body style="background: #000; overflow: hidden;">
     <div id="player-page" class="player-overlay">
@@ -15,22 +13,14 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </button>
             <div id="modal-stream-selector" class="stream-selector"></div>
-            <button id="pip-btn" class="back-btn" title="Picture in Picture" style="display:none; margin-left: 10px;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="10" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
-            </button>
             <div style="width: 40px;"></div>
         </div>
         
         <div class="video-box">
             <div class="iframe-container">
-                <iframe id="main-player" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"></iframe>
+                <iframe id="main-player" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"></iframe>
             </div>
         </div>
-        
-        <!-- Elemento audio nascosto per mantenere il processo attivo in background -->
-        <audio id="bg-silence" loop style="display:none;">
-            <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" type="audio/wav">
-        </audio>
     </div>
 
     <script>
@@ -72,113 +62,22 @@
             `).join('');
         }
 
-        function setupMediaSession(channelName) {
-            if ('mediaSession' in navigator) {
-                navigator.mediaSession.metadata = new MediaMetadata({
-                    title: channelName,
-                    artist: 'StreamGrid',
-                    album: 'Streaming Live',
-                    artwork: [
-                        { src: 'stream-in-colorado.jpg', sizes: '512x512', type: 'image/jpeg' }
-                    ]
-                });
-
-                navigator.mediaSession.setActionHandler('play', () => {
-                    const silence = document.getElementById('bg-silence');
-                    silence.play().catch(() => {});
-                    // Notifica all'utente che deve premere play anche sul video se necessario
-                    console.log("Ripresa richiesta dalla lockscreen");
-                });
-
-                navigator.mediaSession.setActionHandler('pause', () => {
-                    document.getElementById('bg-silence').pause();
-                });
-            }
-        }
-
-        // Supporto Picture-in-Picture
-        async function togglePiP() {
-            try {
-                const player = document.getElementById('main-player');
-                if (document.pictureInPictureElement) {
-                    await document.exitPictureInPicture();
-                } else if (document.pictureInPictureEnabled) {
-                    // Nota: l'iframe deve supportare PiP. 
-                    // Alcuni browser permettono PiP solo su elementi <video> diretti.
-                    // Se l'iframe contiene un video, l'utente potrebbe dover usare i controlli interni.
-                    console.log("Richiesta PiP");
-                }
-            } catch (error) {
-                console.log("PiP non supportato o fallito", error);
-            }
-        }
-
-        const pipBtn = document.getElementById('pip-btn');
-        if (document.pictureInPictureEnabled || isMobile()) {
-            pipBtn.style.display = 'flex';
-            pipBtn.onclick = togglePiP;
-        }
-
-        let wakeLock = null;
-        async function requestWakeLock() {
-            try {
-                if ('wakeLock' in navigator) {
-                    wakeLock = await navigator.wakeLock.request('screen');
-                }
-            } catch (err) {
-                console.error(`Wake Lock Error: ${err.message}`);
-            }
-        }
-
-        function enableBackgroundAudio() {
-            const silence = document.getElementById('bg-silence');
-            silence.play().catch(e => console.log("Audio background richiede interazione utente"));
-            requestWakeLock();
-            
-            // Suggerimento per l'utente su mobile
-            if (isMobile()) {
-                console.log("Background Mode attivata. Se si ferma, premi Play dalla lockscreen.");
-            }
-        }
-
-        // Gestione visibilità per mantenere la sessione
-        document.addEventListener('visibilitychange', () => {
-            const silence = document.getElementById('bg-silence');
-            if (document.visibilityState === 'hidden') {
-                // Quando la pagina scompare, assicuriamoci che l'audio "ancora" stia andando
-                silence.play().catch(() => {});
-            } else if (document.visibilityState === 'visible' && wakeLock !== null) {
-                requestWakeLock();
-            }
-        });
-
         // Init based on URL
         const params = new URLSearchParams(window.location.search);
         const type = params.get('type');
         const id = parseInt(params.get('id'));
 
-        let currentChannelName = "StreamGrid Player";
-
         if (type === 'fast') {
             const ch = fastChannels.find(c => c.id === id);
-            if (ch) {
-                currentChannelName = ch.name;
-                updateStream(ch, 0);
-            }
+            if (ch) updateStream(ch, 0);
         } else if (type === 'normal') {
             const ch = normalChannels.find(c => c.id === id);
             if (ch) {
-                currentChannelName = ch.name;
                 const separator = ch.url.includes('?') ? '&' : '?';
                 document.getElementById('main-player').src = `${ch.url}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
                 document.getElementById('modal-stream-selector').style.display = 'none';
             }
         }
-
-        // Setup Media Session and enable background logic on first click
-        setupMediaSession(currentChannelName);
-        document.addEventListener('click', enableBackgroundAudio, { once: true });
-        document.addEventListener('touchstart', enableBackgroundAudio, { once: true });
     </script>
 </body>
 </html>
