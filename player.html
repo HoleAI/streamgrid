@@ -15,12 +15,15 @@
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
             </button>
             <div id="modal-stream-selector" class="stream-selector"></div>
+            <button id="pip-btn" class="back-btn" title="Picture in Picture" style="display:none; margin-left: 10px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="14" height="10" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+            </button>
             <div style="width: 40px;"></div>
         </div>
         
         <div class="video-box">
             <div class="iframe-container">
-                <iframe id="main-player" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"></iframe>
+                <iframe id="main-player" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"></iframe>
             </div>
         </div>
         
@@ -81,11 +84,10 @@
                 });
 
                 navigator.mediaSession.setActionHandler('play', () => {
-                    const player = document.getElementById('main-player');
                     const silence = document.getElementById('bg-silence');
-                    silence.play();
-                    // Non possiamo controllare direttamente l'iframe cross-origin, 
-                    // ma l'utente può riprenderlo manualmente se si mette in pausa.
+                    silence.play().catch(() => {});
+                    // Notifica all'utente che deve premere play anche sul video se necessario
+                    console.log("Ripresa richiesta dalla lockscreen");
                 });
 
                 navigator.mediaSession.setActionHandler('pause', () => {
@@ -94,12 +96,34 @@
             }
         }
 
+        // Supporto Picture-in-Picture
+        async function togglePiP() {
+            try {
+                const player = document.getElementById('main-player');
+                if (document.pictureInPictureElement) {
+                    await document.exitPictureInPicture();
+                } else if (document.pictureInPictureEnabled) {
+                    // Nota: l'iframe deve supportare PiP. 
+                    // Alcuni browser permettono PiP solo su elementi <video> diretti.
+                    // Se l'iframe contiene un video, l'utente potrebbe dover usare i controlli interni.
+                    console.log("Richiesta PiP");
+                }
+            } catch (error) {
+                console.log("PiP non supportato o fallito", error);
+            }
+        }
+
+        const pipBtn = document.getElementById('pip-btn');
+        if (document.pictureInPictureEnabled || isMobile()) {
+            pipBtn.style.display = 'flex';
+            pipBtn.onclick = togglePiP;
+        }
+
         let wakeLock = null;
         async function requestWakeLock() {
             try {
                 if ('wakeLock' in navigator) {
                     wakeLock = await navigator.wakeLock.request('screen');
-                    console.log('Wake Lock attivo');
                 }
             } catch (err) {
                 console.error(`Wake Lock Error: ${err.message}`);
@@ -110,11 +134,20 @@
             const silence = document.getElementById('bg-silence');
             silence.play().catch(e => console.log("Audio background richiede interazione utente"));
             requestWakeLock();
+            
+            // Suggerimento per l'utente su mobile
+            if (isMobile()) {
+                console.log("Background Mode attivata. Se si ferma, premi Play dalla lockscreen.");
+            }
         }
 
         // Gestione visibilità per mantenere la sessione
         document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible' && wakeLock !== null) {
+            const silence = document.getElementById('bg-silence');
+            if (document.visibilityState === 'hidden') {
+                // Quando la pagina scompare, assicuriamoci che l'audio "ancora" stia andando
+                silence.play().catch(() => {});
+            } else if (document.visibilityState === 'visible' && wakeLock !== null) {
                 requestWakeLock();
             }
         });
