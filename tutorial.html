@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutorial | Stream Grid</title>
     <link rel="stylesheet" href="index.css">
+    <!-- PWA Setup -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0a0c">
+    <link rel="apple-touch-icon" href="stream-in-colorado.jpg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Stream Grid">
     <style>
         .tutorial-container {
             max-width: 800px;
@@ -43,7 +50,10 @@
 </head>
 <body>
     <header class="navbar glass">
-        <div class="logo">Stream Grid</div>
+        <div class="logo-container" style="display: flex; align-items: center; gap: 10px;">
+            <img src="stream-in-colorado.jpg" alt="Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+            <span class="logo">Stream Grid</span>
+        </div>
         <button onclick="window.location.href='index.html'" class="selector-btn glass" style="color: white;">Torna alla Home</button>
     </header>
 
