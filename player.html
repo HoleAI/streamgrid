@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamGrid | Player</title>
     <link rel="stylesheet" href="index.css?v=6">
+    <link rel="manifest" href="manifest.json">
 </head>
 <body style="background: #000; overflow: hidden;">
     <div id="player-page" class="player-overlay">
@@ -21,6 +22,11 @@
                 <iframe id="main-player" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"></iframe>
             </div>
         </div>
+        
+        <!-- Elemento audio nascosto per mantenere il processo attivo in background -->
+        <audio id="bg-silence" loop style="display:none;">
+            <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA" type="audio/wav">
+        </audio>
     </div>
 
     <script>
@@ -62,22 +68,84 @@
             `).join('');
         }
 
+        function setupMediaSession(channelName) {
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: channelName,
+                    artist: 'StreamGrid',
+                    album: 'Streaming Live',
+                    artwork: [
+                        { src: 'https://img.icons8.com/fluency/96/play.png', sizes: '96x96', type: 'image/png' },
+                        { src: 'https://img.icons8.com/fluency/512/play.png', sizes: '512x512', type: 'image/png' }
+                    ]
+                });
+
+                navigator.mediaSession.setActionHandler('play', () => {
+                    const player = document.getElementById('main-player');
+                    const silence = document.getElementById('bg-silence');
+                    silence.play();
+                    // Non possiamo controllare direttamente l'iframe cross-origin, 
+                    // ma l'utente può riprenderlo manualmente se si mette in pausa.
+                });
+
+                navigator.mediaSession.setActionHandler('pause', () => {
+                    document.getElementById('bg-silence').pause();
+                });
+            }
+        }
+
+        let wakeLock = null;
+        async function requestWakeLock() {
+            try {
+                if ('wakeLock' in navigator) {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Wake Lock attivo');
+                }
+            } catch (err) {
+                console.error(`Wake Lock Error: ${err.message}`);
+            }
+        }
+
+        function enableBackgroundAudio() {
+            const silence = document.getElementById('bg-silence');
+            silence.play().catch(e => console.log("Audio background richiede interazione utente"));
+            requestWakeLock();
+        }
+
+        // Gestione visibilità per mantenere la sessione
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible' && wakeLock !== null) {
+                requestWakeLock();
+            }
+        });
+
         // Init based on URL
         const params = new URLSearchParams(window.location.search);
         const type = params.get('type');
         const id = parseInt(params.get('id'));
 
+        let currentChannelName = "StreamGrid Player";
+
         if (type === 'fast') {
             const ch = fastChannels.find(c => c.id === id);
-            if (ch) updateStream(ch, 0);
+            if (ch) {
+                currentChannelName = ch.name;
+                updateStream(ch, 0);
+            }
         } else if (type === 'normal') {
             const ch = normalChannels.find(c => c.id === id);
             if (ch) {
+                currentChannelName = ch.name;
                 const separator = ch.url.includes('?') ? '&' : '?';
                 document.getElementById('main-player').src = `${ch.url}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
                 document.getElementById('modal-stream-selector').style.display = 'none';
             }
         }
+
+        // Setup Media Session and enable background logic on first click
+        setupMediaSession(currentChannelName);
+        document.addEventListener('click', enableBackgroundAudio, { once: true });
+        document.addEventListener('touchstart', enableBackgroundAudio, { once: true });
     </script>
 </body>
 </html>

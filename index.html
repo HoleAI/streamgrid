@@ -6,6 +6,13 @@
     <title>StreamGrid | Premium Streaming</title>
     <link rel="stylesheet" href="index.css?v=6">
     <meta name="description" content="Piattaforma di streaming premium per canali TV sportivi e d'intrattenimento.">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0a0c">
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </head>
 <body>
     <div id="app">
