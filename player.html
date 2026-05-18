@@ -55,7 +55,7 @@
         function updateStream(channel, index) {
             const streamId = channel.streams[index];
             let url = isMobile() 
-                ? `https://1nyaler.streamhostingcdn.top/stream/${streamId}/index.m3u8?token=${STREAM_TOKEN}&no_register=true`
+                ? `https://1nyaler.streamhostingcdn.top/stream/${streamId}/index.m3u8?token=${STREAM_TOKEN}`
                 : `https://mediahosting.space/embed/player?stream=${streamId}&token=${STREAM_TOKEN}&no_register=true`;
             
             document.getElementById('main-player').src = url;
