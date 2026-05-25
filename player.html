@@ -12,6 +12,9 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="stream-in-colorado.jpg">
+
+    <!-- HLS.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@1.4.0/dist/hls.min.js"></script>
 </head>
 <body style="background: #000; overflow: hidden;">
     <div id="player-page" class="player-overlay">
@@ -24,8 +27,11 @@
         </div>
         
         <div class="video-box">
-            <div class="iframe-container">
+            <div id="iframe-wrapper" class="iframe-container">
                 <iframe id="main-player" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"></iframe>
+            </div>
+            <div id="video-wrapper" class="iframe-container" style="display: none;">
+                <video id="video-player" controls autoplay playsinline style="width: 100%; height: 100%; border: none; display: block; background: #000;"></video>
             </div>
         </div>
     </div>
@@ -46,6 +52,10 @@
             {"id": 9, "name": "Canale E1 🥇", "url": "https://lovetier.bz/player/euro1it"},
             {"id": 10, "name": "Canale E2 🥈", "url": "https://lovetier.bz/player/euro2it"},
             {"id": 11, "name": "Canale B 🏀", "url": "https://lovetier.bz/player/SkySportNBAIT"}
+        ];
+
+        const digitaleChannels = [
+            {"id": 12, "name": "8 🌍", "url": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnts=st=1779718005~exp=1779718305~acl=/*~hmac=b51aca08536e19e81b3d8ffa0d1d4025a08577044980eec534724f3de7e8ee18"}
         ];
 
         function isMobile() {
@@ -83,6 +93,30 @@
                 const separator = ch.url.includes('?') ? '&' : '?';
                 document.getElementById('main-player').src = `${ch.url}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
                 document.getElementById('modal-stream-selector').style.display = 'none';
+            }
+        } else if (type === 'digitale') {
+            const ch = digitaleChannels.find(c => c.id === id);
+            if (ch) {
+                document.getElementById('iframe-wrapper').style.display = 'none';
+                document.getElementById('video-wrapper').style.display = 'block';
+                document.getElementById('modal-stream-selector').style.display = 'none';
+
+                const video = document.getElementById('video-player');
+                const streamUrl = ch.url;
+
+                if (Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(streamUrl);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        video.play().catch(e => console.log('Autoplay blocked: ', e));
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = streamUrl;
+                    video.addEventListener('loadedmetadata', function() {
+                        video.play().catch(e => console.log('Autoplay blocked: ', e));
+                    });
+                }
             }
         }
     </script>

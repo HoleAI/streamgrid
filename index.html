@@ -34,6 +34,11 @@
                 <h2 class="section-title">Canali Fast</h2>
                 <div id="fast-grid" class="channel-grid"></div>
             </section>
+
+            <section id="digitale-section">
+                <h2 class="section-title">Digitale 🌍</h2>
+                <div id="digitale-grid" class="channel-grid"></div>
+            </section>
         </main>
     </div>
 
@@ -66,9 +71,14 @@
             {"id": 11, "name": "Canale B 🏀", "url": "https://lovetier.bz/player/SkySportArenaIT"}
         ];
 
+        const digitaleChannels = [
+            {"id": 12, "name": "8 🌍", "url": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnts=st=1779718005~exp=1779718305~acl=/*~hmac=b51aca08536e19e81b3d8ffa0d1d4025a08577044980eec534724f3de7e8ee18"}
+        ];
+
         function renderChannels() {
             const fastGrid = document.getElementById('fast-grid');
             const normalGrid = document.getElementById('normal-grid');
+            const digitaleGrid = document.getElementById('digitale-grid');
 
             fastGrid.innerHTML = fastChannels.map(ch => `
                 <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=fast&id=${ch.id}'">
@@ -78,6 +88,12 @@
 
             normalGrid.innerHTML = normalChannels.map(ch => `
                 <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=normal&id=${ch.id}'">
+                    <div class="channel-name">${ch.name}</div>
+                </div>
+            `).join('');
+
+            digitaleGrid.innerHTML = digitaleChannels.map(ch => `
+                <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=digitale&id=${ch.id}'">
                     <div class="channel-name">${ch.name}</div>
                 </div>
             `).join('');
