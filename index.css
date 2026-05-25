@@ -46,7 +46,6 @@ body {
 
 .fade-in { animation: fadeIn 0.4s ease-out forwards; }
 
-/* Navbar */
 .navbar {
     position: sticky;
     top: 0;
@@ -56,6 +55,26 @@ body {
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s ease;
+}
+
+.install-btn {
+    padding: 0.5rem 1.25rem;
+    border-radius: 2rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-glass);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.install-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 .logo {
@@ -144,6 +163,11 @@ body {
     justify-content: space-between;
     background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
     z-index: 1010;
+    pointer-events: none; /* Let clicks pass through the empty areas */
+}
+
+.player-header > * {
+    pointer-events: auto; /* Buttons inside header remain clickable */
 }
 
 .video-box {
@@ -178,6 +202,9 @@ body {
         width: 100vw;
         height: 56.25vw;
         border-radius: 0;
+    }
+    .player-header {
+        padding: 0.75rem 1rem;
     }
 }
 
