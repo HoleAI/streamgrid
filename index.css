@@ -193,6 +193,7 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: background 0.2s;
+    flex-shrink: 0;
 }
 
 .back-btn:hover { background: rgba(255, 255, 255, 0.2); }
@@ -201,16 +202,21 @@ body {
 .stream-selector {
     display: none;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.6rem;
     background: rgba(22, 22, 26, 0.85);
-    padding: 0.4rem;
-    border-radius: 2rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 3rem;
     backdrop-filter: blur(12px);
     border: 1px solid var(--border-glass);
     max-width: 60vw;
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    /* Absolute perfect centering in the header */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .stream-selector::-webkit-scrollbar {

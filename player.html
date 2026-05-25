@@ -86,12 +86,7 @@
             const selector = document.getElementById('modal-stream-selector');
             if (channel.streams && channel.streams.length > 1) {
                 selector.style.display = 'flex';
-                selector.innerHTML = channel.streams.map((_, i) => `
-                    <button onclick='updateStream(${JSON.stringify(channel)}, ${i})' 
-                            class="selector-btn ${i === index ? 'active' : ''}">
-                        ${i + 1}
-                    </button>
-                `).join('');
+                selector.innerHTML = channel.streams.map((_, i) => `<button onclick='updateStream(${JSON.stringify(channel)}, ${i})' class="selector-btn ${i === index ? 'active' : ''}">${i + 1}</button>`).join('');
             } else {
                 selector.style.display = 'none';
             }
