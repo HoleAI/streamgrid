@@ -206,6 +206,14 @@ body {
     border-radius: 2rem;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 65vw;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.stream-selector::-webkit-scrollbar {
+    display: none;
 }
 
 .selector-btn {
@@ -218,6 +226,8 @@ body {
     border: none;
     background: transparent;
     color: var(--text-secondary);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .selector-btn.active { background: var(--accent); color: white; }
