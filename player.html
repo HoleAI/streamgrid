@@ -55,7 +55,7 @@
         ];
 
         const digitaleChannels = [
-            {"id": 12, "name": "8 🌍", "url": "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnts=st=1779718005~exp=1779718305~acl=/*~hmac=b51aca08536e19e81b3d8ffa0d1d4025a08577044980eec534724f3de7e8ee18"}
+            {"id": 12, "name": "8 🌍", "url": "https://mytivu.it/Application/Channels/TV8.php"}
         ];
 
         function isMobile() {
@@ -97,25 +97,31 @@
         } else if (type === 'digitale') {
             const ch = digitaleChannels.find(c => c.id === id);
             if (ch) {
-                document.getElementById('iframe-wrapper').style.display = 'none';
-                document.getElementById('video-wrapper').style.display = 'block';
                 document.getElementById('modal-stream-selector').style.display = 'none';
-
-                const video = document.getElementById('video-player');
                 const streamUrl = ch.url;
 
-                if (Hls.isSupported()) {
-                    const hls = new Hls();
-                    hls.loadSource(streamUrl);
-                    hls.attachMedia(video);
-                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                        video.play().catch(e => console.log('Autoplay blocked: ', e));
-                    });
-                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                    video.src = streamUrl;
-                    video.addEventListener('loadedmetadata', function() {
-                        video.play().catch(e => console.log('Autoplay blocked: ', e));
-                    });
+                if (streamUrl.includes('.m3u8')) {
+                    document.getElementById('iframe-wrapper').style.display = 'none';
+                    document.getElementById('video-wrapper').style.display = 'block';
+                    const video = document.getElementById('video-player');
+
+                    if (Hls.isSupported()) {
+                        const hls = new Hls();
+                        hls.loadSource(streamUrl);
+                        hls.attachMedia(video);
+                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                            video.play().catch(e => console.log('Autoplay blocked: ', e));
+                        });
+                    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                        video.src = streamUrl;
+                        video.addEventListener('loadedmetadata', function() {
+                            video.play().catch(e => console.log('Autoplay blocked: ', e));
+                        });
+                    }
+                } else {
+                    document.getElementById('iframe-wrapper').style.display = 'block';
+                    document.getElementById('video-wrapper').style.display = 'none';
+                    document.getElementById('main-player').src = streamUrl;
                 }
             }
         }
