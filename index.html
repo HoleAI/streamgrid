@@ -21,7 +21,7 @@
     <div id="app">
         <header class="navbar glass">
             <div class="logo">Stream Grid</div>
-            <a href="tutorial.html" class="selector-btn glass" style="text-decoration: none; color: white;">📖 Tutorial</a>
+            <button id="install-btn" class="selector-btn glass" style="display: none; text-decoration: none; color: white; border: none; cursor: pointer; font: inherit; outline: none; background: rgba(255, 255, 255, 0.1);">📱 Installa App</button>
         </header>
 
         <main class="max-w-7xl mx-auto">
@@ -39,10 +39,41 @@
                 <h2 class="section-title">Digitale 🌍</h2>
                 <div id="digitale-grid" class="channel-grid"></div>
             </section>
+            
+            <div style="text-align: center; margin-top: 3rem; padding-bottom: 2rem;">
+                <a href="tutorial.html" style="color: #888; text-decoration: none; font-size: 0.85rem;">📖 Vai al Tutorial</a>
+            </div>
         </main>
     </div>
 
     <script>
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('install-btn');
+            if(installBtn) {
+                installBtn.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const installBtn = document.getElementById('install-btn');
+            if(installBtn) {
+                installBtn.addEventListener('click', async () => {
+                    if (deferredPrompt) {
+                        deferredPrompt.prompt();
+                        const { outcome } = await deferredPrompt.userChoice;
+                        if (outcome === 'accepted') {
+                            deferredPrompt = null;
+                            installBtn.style.display = 'none';
+                        }
+                    }
+                });
+            }
+        });
+
         // Service Worker Registration for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
