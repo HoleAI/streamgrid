@@ -4,8 +4,8 @@
   "description": "Piattaforma di streaming per canali TV sportivi e d'intrattenimento.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0a0a0c",
-  "theme_color": "#6366f1",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "stream-in-colorado.jpg",
