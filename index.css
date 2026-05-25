@@ -200,13 +200,14 @@ body {
 /* Stream Selector */
 .stream-selector {
     display: flex;
-    gap: 0.75rem;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 0.5rem 1rem;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(22, 22, 26, 0.85);
+    padding: 0.4rem;
     border-radius: 2rem;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 65vw;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    max-width: 60vw;
     overflow-x: auto;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -217,20 +218,28 @@ body {
 }
 
 .selector-btn {
-    padding: 0.4rem 1rem;
-    border-radius: 1.5rem;
-    font-size: 0.85rem;
-    font-weight: 500;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     border: none;
     background: transparent;
     color: var(--text-secondary);
-    white-space: nowrap;
     flex-shrink: 0;
 }
 
-.selector-btn.active { background: var(--accent); color: white; }
+.selector-btn.active { 
+    background: var(--accent); 
+    color: white; 
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
 .selector-btn:not(.active):hover { background: rgba(255, 255, 255, 0.1); color: white; }
 
 /* Section Title */
