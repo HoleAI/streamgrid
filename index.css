@@ -199,7 +199,7 @@ body {
 
 /* Stream Selector */
 .stream-selector {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 0.5rem;
     background: rgba(22, 22, 26, 0.85);
