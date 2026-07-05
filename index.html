@@ -136,11 +136,20 @@
                 </div>
             `).join('');
 
-            digitaleGrid.innerHTML = digitaleChannels.map(ch => `
-                <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=digitale&id=${ch.id}'">
-                    <div class="channel-name">${ch.name}</div>
-                </div>
-            `).join('');
+            digitaleGrid.innerHTML = digitaleChannels.map(ch => {
+                if (ch.id === 100) {
+                    return `
+                        <div class="channel-card fade-in" onclick="window.open('https://juventusonair.com/channels/rsila2z.php', '_blank')">
+                            <div class="channel-name">${ch.name} <span style="font-size: 0.85em; margin-left: 5px;">🔗</span></div>
+                        </div>
+                    `;
+                }
+                return `
+                    <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=digitale&id=${ch.id}'">
+                        <div class="channel-name">${ch.name}</div>
+                    </div>
+                `;
+            }).join('');
         }
 
         // Initialize
