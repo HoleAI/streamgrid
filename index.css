@@ -174,13 +174,18 @@ body {
 }
 
 .video-box {
-    width: 100vw;
-    height: 100vh;
+    width: 60vw;
+    aspect-ratio: 16 / 9;
+    max-height: 80vh;
+    max-width: 1200px;
     background: #000;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
 .iframe-container {
@@ -207,9 +212,11 @@ body {
         font-size: 0.85rem;
     }
     .video-box {
-        width: 85vw;
-        max-height: 70vh;
-        border-radius: 0.75rem;
+        width: 95vw;
+        aspect-ratio: 16 / 9;
+        max-height: none;
+        border-radius: 8px;
+        margin-top: 20px;
     }
     .player-header {
         padding: 0.5rem 0.75rem;
