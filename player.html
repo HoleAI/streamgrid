@@ -118,7 +118,7 @@
                 selector.style.display = 'none';
             }
 
-            if (streamUrl.includes('.m3u8') && !streamUrl.includes('.php')) {
+            if ((streamUrl.includes('.m3u8') && !streamUrl.includes('.php')) || streamUrl.includes('mytivu.it')) {
                 document.getElementById('iframe-wrapper').style.display = 'none';
                 document.getElementById('video-wrapper').style.display = 'block';
                 const video = document.getElementById('video-player');
