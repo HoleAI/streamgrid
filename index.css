@@ -174,15 +174,10 @@ body {
 }
 
 .video-box {
-    width: 80vw;
-    max-width: 1000px;
-    max-height: 75vh;
-    aspect-ratio: 16 / 9;
+    width: 100vw;
+    height: 100vh;
     background: #000;
-    border-radius: 1rem;
     overflow: hidden;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    border: 1px solid var(--border-glass);
     display: flex;
     align-items: center;
     justify-content: center;
