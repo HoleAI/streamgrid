@@ -62,10 +62,9 @@
 
         const digitaleChannels = [
             {"id": 1, "name": "Rai 1 HD", "url": "https://dash2.antik.sk/live/test_rai_uno_tizen/playlist.m3u8"},
-            {"id": 2, "name": "Rai 2 HD", "url": "https://d3k8wzt41aflvx.cloudfront.net/RAI2/Live.m3u8"},
+            {"id": 2, "name": "Rai 2 HD", "urls": ["https://d3k8wzt41aflvx.cloudfront.net/RAI2/Live.m3u8", "https://juventusonair.com/lv/ck/app/rai/tivusat/rai2.php"]},
             {"id": 3, "name": "Rai 3 HD", "url": "https://dash2.antik.sk/live/test_rai_tre_tizen/playlist.m3u8"},
-            {"id": 5, "name": "Canale 5", "url": "https://lovetier.bz/player/Canale5"},
-            {"id": 502, "name": "Canale 5 2", "url": "https://juventusonair.com/lv/ck/app/mediaset/tivusat/5.php"},
+            {"id": 5, "name": "Canale 5", "urls": ["https://lovetier.bz/player/Canale5", "https://juventusonair.com/lv/ck/app/mediaset/tivusat/5.php"]},
             {"id": 8, "name": "TV8", "url": "https://mytivu.it/Application/Channels/TV8.php"},
             {"id": 9, "name": "Nove", "url": "https://mytivu.it/Application/Channels/Nove.php"},
             {"id": 52, "name": "DMAX", "url": "https://mytivu.it/Application/Channels/Dmax.php"},
@@ -101,6 +100,51 @@
                 selector.style.display = 'none';
             }
         }
+        function updateDigitaleStream(channel, index) {
+            const streamUrls = channel.urls || [channel.url];
+            const streamUrl = streamUrls[index];
+
+            const selector = document.getElementById('modal-stream-selector');
+            if (streamUrls.length > 1) {
+                selector.style.display = 'flex';
+                selector.innerHTML = streamUrls.map((_, i) => `<button onclick='updateDigitaleStream(${JSON.stringify(channel)}, ${i})' class="selector-btn ${i === index ? 'active' : ''}">${i + 1}</button>`).join('');
+            } else {
+                selector.style.display = 'none';
+            }
+
+            if (streamUrl.includes('.m3u8') && !streamUrl.includes('.php')) {
+                document.getElementById('iframe-wrapper').style.display = 'none';
+                document.getElementById('video-wrapper').style.display = 'block';
+                const video = document.getElementById('video-player');
+
+                if (Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(streamUrl);
+                    hls.attachMedia(video);
+                    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                        video.play().catch(e => console.log('Autoplay blocked: ', e));
+                    });
+                } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                    video.src = streamUrl;
+                    video.addEventListener('loadedmetadata', function() {
+                        video.play().catch(e => console.log('Autoplay blocked: ', e));
+                    });
+                }
+            } else {
+                document.getElementById('iframe-wrapper').style.display = 'block';
+                document.getElementById('video-wrapper').style.display = 'none';
+                const video = document.getElementById('video-player');
+                video.pause();
+                video.src = '';
+                
+                let finalUrl = streamUrl;
+                if (streamUrl.includes('lovetier.bz')) {
+                    const separator = streamUrl.includes('?') ? '&' : '?';
+                    finalUrl = `${streamUrl}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
+                }
+                document.getElementById('main-player').src = finalUrl;
+            }
+        }
 
         // Init based on URL
         const params = new URLSearchParams(window.location.search);
@@ -121,37 +165,7 @@
         } else if (type === 'digitale') {
             const ch = digitaleChannels.find(c => c.id === id);
             if (ch) {
-                document.getElementById('modal-stream-selector').style.display = 'none';
-                const streamUrl = ch.url;
-
-                if (streamUrl.includes('.m3u8') && !streamUrl.includes('.php')) {
-                    document.getElementById('iframe-wrapper').style.display = 'none';
-                    document.getElementById('video-wrapper').style.display = 'block';
-                    const video = document.getElementById('video-player');
-
-                    if (Hls.isSupported()) {
-                        const hls = new Hls();
-                        hls.loadSource(streamUrl);
-                        hls.attachMedia(video);
-                        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                            video.play().catch(e => console.log('Autoplay blocked: ', e));
-                        });
-                    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                        video.src = streamUrl;
-                        video.addEventListener('loadedmetadata', function() {
-                            video.play().catch(e => console.log('Autoplay blocked: ', e));
-                        });
-                    }
-                } else {
-                    document.getElementById('iframe-wrapper').style.display = 'block';
-                    document.getElementById('video-wrapper').style.display = 'none';
-                    let finalUrl = streamUrl;
-                    if (streamUrl.includes('lovetier.bz')) {
-                        const separator = streamUrl.includes('?') ? '&' : '?';
-                        finalUrl = `${streamUrl}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
-                    }
-                    document.getElementById('main-player').src = finalUrl;
-                }
+                updateDigitaleStream(ch, 0);
             }
         }
     </script>
