@@ -1,4 +1,4 @@
-const CACHE_NAME = 'stream-grid-v5';
+const CACHE_NAME = 'stream-grid-v6';
 const ASSETS = [
   './',
   './index.html',
