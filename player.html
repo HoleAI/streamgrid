@@ -37,7 +37,7 @@
         
         <div class="video-box">
             <div id="iframe-wrapper" class="iframe-container">
-                <iframe id="main-player" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
+                <iframe id="main-player" allow="autoplay *; encrypted-media *; fullscreen *; picture-in-picture *;" allowfullscreen></iframe>
             </div>
             <div id="video-wrapper" class="iframe-container" style="display: none;">
                 <video id="video-player" controls autoplay playsinline style="width: 100%; height: 100%; border: none; display: block; background: #000;"></video>
@@ -73,6 +73,7 @@
             {"id": 4, "name": "Rete 4", "url": "/api/tv?id=4"},
             {"id": 5, "name": "Canale 5", "url": "/api/tv?id=5"},
             {"id": 6, "name": "Italia 1", "url": "/api/tv?id=6"},
+            {"id": 7, "name": "LA7", "url": "/api/tv?id=7"},
             {"id": 8, "name": "TV8", "url": "/api/tv?id=8"},
             {"id": 9, "name": "Nove", "url": "/api/tv?id=9"},
             {"id": 20, "name": "20 Mediaset", "url": "/api/tv?id=20"},
@@ -101,7 +102,10 @@
                 ? `https://1nyaler.streamhostingcdn.top/stream/${streamId}/index.m3u8?token=${STREAM_TOKEN}`
                 : `https://mediahosting.space/embed/player?stream=${streamId}&token=${STREAM_TOKEN}&no_register=true`;
             
-            document.getElementById('main-player').src = url;
+            const player = document.getElementById('main-player');
+            player.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals');
+            player.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
+            player.src = url;
 
             const selector = document.getElementById('modal-stream-selector');
             if (channel.streams && channel.streams.length > 1) {
@@ -128,7 +132,10 @@
                 const separator = streamUrl.includes('?') ? '&' : '?';
                 finalUrl = `${streamUrl}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
             }
-            document.getElementById('main-player').src = finalUrl;
+            const player = document.getElementById('main-player');
+            player.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals');
+            player.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
+            player.src = finalUrl;
         }
 
         function updateDigitaleStream(channel, index) {
@@ -151,7 +158,10 @@
                 video.src = '';
             }
 
-            document.getElementById('main-player').src = streamUrl;
+            const player = document.getElementById('main-player');
+            player.removeAttribute('sandbox');
+            player.setAttribute('allow', 'autoplay *; encrypted-media *; fullscreen *; picture-in-picture *;');
+            player.src = streamUrl;
         }
 
         // Init based on URL
