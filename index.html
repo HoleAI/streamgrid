@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Grid</title>
-    <link rel="stylesheet" href="index.css?v=14">
+    <link rel="stylesheet" href="index.css?v=15">
     <meta name="description" content="Piattaforma di streaming per canali TV sportivi e d'intrattenimento.">
     
     <!-- PWA Settings -->
@@ -92,24 +92,24 @@
         ];
 
         const normalChannels = [
-            {"id": 99, "name": "Canale C (Test FreeShot) 🧪", "urls": ["https://wideiptv.top/player/SkySportCalcioIT", "https://freeshot.live/embed/SkySportCalcioIT.php"], "badge": "TEST", "isTest": true},
-            {"id": 4, "name": "Canale D 📍", "url": "https://lovetier.bz/player/zonaDAZN"},
-            {"id": 5, "name": "Canale C ⚽️", "url": "https://lovetier.bz/player/SkySportCalcioIT"},
-            {"id": 6, "name": "Canale Uno ✨", "url": "https://lovetier.bz/player/SkySportUnoIT"},
-            {"id": 7, "name": "Canale T 🥎", "url": "https://lovetier.bz/player/SkySportTennisIT"},
-            {"id": 8, "name": "Canale 24 📰", "url": "https://lovetier.bz/player/SkySport24IT"},
-            {"id": 9, "name": "Canale E1 🥇", "url": "https://lovetier.bz/player/euro1it"},
-            {"id": 10, "name": "Canale E2 🥈", "url": "https://lovetier.bz/player/euro2it"},
-            {"id": 11, "name": "Canale B 🏀", "url": "https://lovetier.bz/player/SkySportNBAIT"},
-            {"id": 13, "name": "Canale F1 🏎️", "url": "https://lovetier.bz/player/SkySportF1IT"},
-            {"id": 14, "name": "Canale Arena ⚔️", "url": "https://lovetier.bz/player/SkySportArenaIT"}
+            {"id": 99, "name": "Canale C (Test FreeShot) 🧪", "url": "https://wideiptv.top/player/SkySportCalcioIT", "badge": "TEST", "isTest": true},
+            {"id": 4, "name": "Canale D 📍", "url": "https://wideiptv.top/player/zonaDAZN"},
+            {"id": 5, "name": "Canale C ⚽️", "url": "https://wideiptv.top/player/SkySportCalcioIT"},
+            {"id": 6, "name": "Canale Uno ✨", "url": "https://wideiptv.top/player/SkySportUnoIT"},
+            {"id": 7, "name": "Canale T 🥎", "url": "https://wideiptv.top/player/SkySportTennisIT"},
+            {"id": 8, "name": "Canale 24 📰", "url": "https://wideiptv.top/player/SkySport24IT"},
+            {"id": 9, "name": "Canale E1 🥇", "url": "https://wideiptv.top/player/euro1it"},
+            {"id": 10, "name": "Canale E2 🥈", "url": "https://wideiptv.top/player/euro2it"},
+            {"id": 11, "name": "Canale B 🏀", "url": "https://wideiptv.top/player/SkySportNBAIT"},
+            {"id": 13, "name": "Canale F1 🏎️", "url": "https://wideiptv.top/player/SkySportF1IT"},
+            {"id": 14, "name": "Canale Arena ⚔️", "url": "https://wideiptv.top/player/SkySportArenaIT"}
         ];
 
         const digitaleChannels = [
             {"id": 1, "name": "Rai 1 HD", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/rai1.php"},
             {"id": 2, "name": "Rai 2 HD", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/rai2.php"},
             {"id": 3, "name": "Rai 3 HD", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/rai3.php"},
-            {"id": 5, "name": "Canale 5", "urls": ["https://juventusonair.com/lv/ck/app/mediaset/tivusat/5.php", "https://lovetier.bz/player/Canale5"]},
+            {"id": 5, "name": "Canale 5", "urls": ["https://juventusonair.com/lv/ck/app/mediaset/tivusat/5.php", "https://wideiptv.top/player/Canale5"]},
             {"id": 8, "name": "TV8", "url": "https://www.mytivu.it/Application/Channels/TV8.php"},
             {"id": 9, "name": "Nove", "url": "https://streaming.aurora.enhanced.live/live/mpc/enl0eG1mLmVncmVzcy5mZDJ2eHI=/out/v1/IT_SIMULCAST/NOVE/CMAF/index.m3u8"},
             {"id": 58, "name": "Rai Sport", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/raisport.php"},
@@ -130,7 +130,7 @@
             `).join('');
 
             normalGrid.innerHTML = normalChannels.map(ch => `
-                <div class="channel-card fade-in ${ch.isTest ? 'test-card' : ''}" onclick="window.location.href='player.html?v=3&type=normal&id=${ch.id}'">
+                <div class="channel-card fade-in ${ch.isTest ? 'test-card' : ''}" onclick="window.location.href='player.html?v=4&type=normal&id=${ch.id}'">
                     <div class="channel-name">${ch.name}${ch.badge ? `<span class="badge-test">${ch.badge}</span>` : ''}</div>
                 </div>
             `).join('');
