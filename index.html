@@ -106,16 +106,21 @@
         ];
 
         const digitaleChannels = [
-            {"id": 1, "name": "Rai 1 HD", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/rai1.php"},
-            {"id": 2, "name": "Rai 2 HD", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/rai2.php"},
-            {"id": 3, "name": "Rai 3 HD", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/rai3.php"},
-            {"id": 5, "name": "Canale 5", "urls": ["https://juventusonair.com/lv/ck/app/mediaset/tivusat/5.php", "https://wideiptv.top/player/Canale5"]},
-            {"id": 8, "name": "TV8", "url": "https://www.mytivu.it/Application/Channels/TV8.php"},
-            {"id": 9, "name": "Nove", "url": "https://streaming.aurora.enhanced.live/live/mpc/enl0eG1mLmVncmVzcy5mZDJ2eHI=/out/v1/IT_SIMULCAST/NOVE/CMAF/index.m3u8"},
-            {"id": 58, "name": "Rai Sport", "url": "https://juventusonair.com/lv/ck/app/rai/tivusat/raisport.php"},
-            {"id": 60, "name": "Sportitalia", "url": "https://edge-001.streamup.eu/sportitalia/sihd_abr/playlist.m3u8"},
-            {"id": 64, "name": "SuperTennis", "url": "https://live-embed.supertennix.hiway.media/restreamer/supertennix_client/gpu-a-c0-16/restreamer/outgest/aa3673f1-e178-44a9-a947-ef41db73211a/manifest.m3u8"},
-            {"id": 100, "name": "RSI LA 2", "url": "https://juventusonair.com/lv/ck/app/rsi/rsila2.php"}
+            {"id": 1, "name": "Rai 1 HD", "url": "/api/tv?id=1"},
+            {"id": 2, "name": "Rai 2 HD", "url": "/api/tv?id=2"},
+            {"id": 3, "name": "Rai 3 HD", "url": "/api/tv?id=3"},
+            {"id": 4, "name": "Rete 4", "url": "/api/tv?id=4"},
+            {"id": 5, "name": "Canale 5", "url": "/api/tv?id=5"},
+            {"id": 6, "name": "Italia 1", "url": "/api/tv?id=6"},
+            {"id": 8, "name": "TV8", "url": "/api/tv?id=8"},
+            {"id": 9, "name": "Nove", "url": "/api/tv?id=9"},
+            {"id": 20, "name": "20 Mediaset", "url": "/api/tv?id=20"},
+            {"id": 52, "name": "DMAX", "url": "/api/tv?id=52"},
+            {"id": 58, "name": "Rai Sport", "url": "/api/tv?id=58"},
+            {"id": 60, "name": "Sportitalia", "url": "/api/tv?id=60"},
+            {"id": 64, "name": "SuperTennis", "url": "/api/tv?id=64"},
+            {"id": 100, "name": "RSI LA 2", "url": "/api/tv?id=100"},
+            {"id": 101, "name": "RSI LA 1", "url": "/api/tv?id=101"}
         ];
 
         function renderChannels() {
@@ -135,20 +140,11 @@
                 </div>
             `).join('');
 
-            digitaleGrid.innerHTML = digitaleChannels.map(ch => {
-                if (ch.id === 100) {
-                    return `
-                        <div class="channel-card fade-in" onclick="window.open('https://juventusonair.com/channels/rsila2z.php', '_blank')">
-                            <div class="channel-name">${ch.name} <span style="font-size: 0.85em; margin-left: 5px;">🔗</span></div>
-                        </div>
-                    `;
-                }
-                return `
-                    <div class="channel-card fade-in" onclick="window.location.href='player.html?v=1&type=digitale&id=${ch.id}'">
-                        <div class="channel-name">${ch.name}</div>
-                    </div>
-                `;
-            }).join('');
+            digitaleGrid.innerHTML = digitaleChannels.map(ch => `
+                <div class="channel-card fade-in" onclick="window.location.href='player.html?v=5&type=digitale&id=${ch.id}'">
+                    <div class="channel-name">${ch.name}</div>
+                </div>
+            `).join('');
         }
 
         // Initialize
