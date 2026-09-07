@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stream Grid</title>
-    <link rel="stylesheet" href="index.css?v=15">
+    <link rel="stylesheet" href="index.css?v=16">
     <meta name="description" content="Piattaforma di streaming per canali TV sportivi e d'intrattenimento.">
     
     <!-- PWA Settings -->
@@ -92,7 +92,6 @@
         ];
 
         const normalChannels = [
-            {"id": 99, "name": "Canale C (Test FreeShot) 🧪", "url": "https://wideiptv.top/player/SkySportCalcioIT", "badge": "TEST", "isTest": true},
             {"id": 4, "name": "Canale D 📍", "url": "https://wideiptv.top/player/zonaDAZN"},
             {"id": 5, "name": "Canale C ⚽️", "url": "https://wideiptv.top/player/SkySportCalcioIT"},
             {"id": 6, "name": "Canale Uno ✨", "url": "https://wideiptv.top/player/SkySportUnoIT"},
@@ -136,7 +135,7 @@
             `).join('');
 
             normalGrid.innerHTML = normalChannels.map(ch => `
-                <div class="channel-card fade-in ${ch.isTest ? 'test-card' : ''}" onclick="window.location.href='player.html?v=4&type=normal&id=${ch.id}'">
+                <div class="channel-card fade-in ${ch.isTest ? 'test-card' : ''}" onclick="window.location.href='player.html?v=5&type=normal&id=${ch.id}'">
                     <div class="channel-name">${ch.name}${ch.badge ? `<span class="badge-test">${ch.badge}</span>` : ''}</div>
                 </div>
             `).join('');
