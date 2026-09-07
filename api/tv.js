@@ -154,7 +154,7 @@ function fetchKeys(keyPath) {
 
 function renderPlayerHtml(ch, streamUrl, keys) {
     const drmSnippet = keys ? `
-            player.configure({
+            playerInstance.configure({
                 drm: {
                     clearKeys: ${JSON.stringify(keys)}
                 }
@@ -208,6 +208,11 @@ function renderPlayerHtml(ch, streamUrl, keys) {
         let playerInstance = null;
         let videoEl = null;
 
+        // Install polyfills
+        if (window.shaka && window.shaka.polyfill) {
+            shaka.polyfill.installAll();
+        }
+
         function unmuteAudio() {
             if (videoEl) {
                 videoEl.muted = false;
@@ -221,6 +226,7 @@ function renderPlayerHtml(ch, streamUrl, keys) {
             const ui = videoEl['ui'];
             const controls = ui.getControls();
             playerInstance = controls.getPlayer();
+            window.playerInstance = playerInstance;
 
             ui.configure({
                 addSeekBar: true,
@@ -249,10 +255,16 @@ function renderPlayerHtml(ch, streamUrl, keys) {
                 await playerInstance.load("${streamUrl}");
                 console.log("${ch.name} avviato con successo!");
                 
-                // Check if browser muted audio
-                if (videoEl.muted) {
-                    document.getElementById('unmute-banner').style.display = 'block';
-                }
+                // Attempt autoplay
+                videoEl.play().catch(() => {
+                    // If browser blocked unmuted autoplay, mute and play with banner
+                    videoEl.muted = true;
+                    videoEl.play().then(() => {
+                        document.getElementById('unmute-banner').style.display = 'block';
+                    }).catch(err => {
+                        console.log("Autoplay non consentito:", err);
+                    });
+                });
             } catch (err) {
                 console.error("Errore caricamento flusso:", err);
             }
