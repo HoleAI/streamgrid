@@ -53,7 +53,7 @@
             {"id": 3, "name": "Canale UNO ✨", "streams": ["130", "170"]}
         ];
         const normalChannels = [
-            {"id": 99, "name": "Canale di lavoro 🧪", "urls": ["https://wideiptv.top/player/SkySportCalcioIT", "https://wideiptv.top/player/SkySportCalcioIT"]},
+            {"id": 99, "name": "Canale di lavoro 🧪", "urls": ["https://wideiptv.top/player/SkySportCalcioIT", "/api/player?channel=SkySportCalcioIT"]},
             {"id": 4, "name": "Canale D 📍", "url": "https://wideiptv.top/player/zonaDAZN"},
             {"id": 5, "name": "Canale C ⚽️", "url": "https://wideiptv.top/player/SkySportCalcioIT"},
             {"id": 6, "name": "Canale Uno ✨", "url": "https://wideiptv.top/player/SkySportUnoIT"},
@@ -128,13 +128,21 @@
             }
 
             let finalUrl = streamUrl;
+            if (streamUrl.startsWith('/api/') && window.location.protocol === 'file:') {
+                finalUrl = 'https://wideiptv.top/player/SkySportCalcioIT';
+            }
             if (streamUrl.includes('lovetier.bz')) {
                 const separator = streamUrl.includes('?') ? '&' : '?';
                 finalUrl = `${streamUrl}${separator}no_ads=1&ads=0&ad=0&advertising=0&banner=0&popup=0&disable_ads=true`;
             }
             const player = document.getElementById('main-player');
-            player.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals');
-            player.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
+            if (finalUrl.startsWith('/api/')) {
+                player.removeAttribute('sandbox');
+                player.setAttribute('allow', 'autoplay *; encrypted-media *; fullscreen *; picture-in-picture *;');
+            } else {
+                player.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals');
+                player.setAttribute('allow', 'autoplay; encrypted-media; fullscreen; picture-in-picture');
+            }
             player.src = finalUrl;
         }
 
